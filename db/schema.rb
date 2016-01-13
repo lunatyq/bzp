@@ -11,10 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160113152439) do
+ActiveRecord::Schema.define(version: 20160113162637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "archives", force: :cascade do |t|
+    t.integer  "year"
+    t.date     "published_on"
+    t.datetime "extracted_at"
+    t.datetime "imported_at"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
@@ -31,5 +40,28 @@ ActiveRecord::Schema.define(version: 20160113152439) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "publications", force: :cascade do |t|
+    t.integer  "biuletyn"
+    t.integer  "pozycja"
+    t.date     "data_publikacji"
+    t.string   "nazwa"
+    t.string   "ulica"
+    t.string   "nr_domu"
+    t.string   "nr_miesz"
+    t.string   "miejscowosc"
+    t.string   "kod_poczt"
+    t.string   "wojewodztwo"
+    t.string   "tel"
+    t.string   "fax"
+    t.string   "regon"
+    t.string   "e_mail"
+    t.string   "ogloszenie"
+    t.string   "przedmiot_zam"
+    t.text     "properties"
+    t.integer  "archive_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
 
 end
