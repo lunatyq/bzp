@@ -24,6 +24,7 @@ gem "simple_form"
 gem "therubyracer"
 gem "title"
 gem "uglifier"
+gem "dotenv-rails"
 
 group :development do
   gem "quiet_assets"
@@ -39,7 +40,6 @@ group :development, :test do
   gem "awesome_print"
   gem "bullet"
   gem "bundler-audit", require: false
-  gem "dotenv-rails"
   gem "factory_girl_rails"
   gem "i18n-tasks"
   gem "pry-byebug"
