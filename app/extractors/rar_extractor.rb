@@ -1,4 +1,4 @@
-class RarUnpacker
+class RarExtractor
   vattr_initialize :source_path, [:destination]
 
   def run
