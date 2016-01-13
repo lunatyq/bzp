@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 ruby "2.2.3"
 
-gem "airbrake"
+# gem "airbrake"
 gem "attr_extras"
 gem "autoprefixer-rails"
 gem "bourbon", "~> 4.2.0"
@@ -30,6 +30,8 @@ group :development do
   gem "spring"
   gem "spring-commands-rspec"
   gem "web-console"
+  gem 'capistrano-bundler'
+  gem 'capistrano-rbenv'
 end
 
 group :development, :test do
