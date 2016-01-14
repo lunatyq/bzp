@@ -82,6 +82,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
+    colored (1.2)
     concurrent-ruby (1.0.0)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
@@ -302,6 +303,7 @@ DEPENDENCIES
   capistrano-rbenv
   capybara-webkit
   coffee-rails (~> 4.1.0)
+  colored
   database_cleaner
   delayed_job_active_record
   dotenv-rails

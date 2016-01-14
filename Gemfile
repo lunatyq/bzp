@@ -25,6 +25,7 @@ gem "therubyracer"
 gem "title"
 gem "uglifier"
 gem "dotenv-rails"
+gem "colored"
 
 group :development do
   gem "quiet_assets"
