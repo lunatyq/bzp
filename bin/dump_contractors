@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+begin
+  load File.expand_path('../spring', __FILE__)
+rescue LoadError => e
+  raise unless e.message.include?('spring')
+end
+APP_PATH = File.expand_path('../../config/application', __FILE__)
+require_relative '../config/boot'
+
+require 'csv'
+
+output = CSV.open("/tmp/contractors.csv", 'w')
+output << %w(id data part_index nazwa adres miejscowosc kod wojewodztwo)
+ids = Publication.where(ogloszenie: "ZP-403").ids; ids.size
+
+procurement = nil
+ids.each_slice(100) do |slice|
+  print '.'
+  Publication.find(slice).each do |publication|
+    procurement = Procurement.new(publication.properties)
+
+    begin
+      procurement.contractors.each_with_index do |contractors_on_part, index|
+        contractors_on_part.each do |contractor|
+          data = [publication.id, publication.data_publikacji.to_s, index]
+          data << contractor.nazwa_wyk.gsub(/\s+/, ' ').strip
+          data << contractor.adres
+          data << contractor.miejsc
+          data << contractor.kod
+          data << contractor.wojewodztwo
+
+          output << data
+        end
+      end
+    rescue NoMethodError => e
+      print "-"
+    end
+  end
+end;1
