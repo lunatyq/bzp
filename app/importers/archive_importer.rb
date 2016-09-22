@@ -3,6 +3,13 @@ class ArchiveImporter
 
   attr_accessor :archive
 
+  def self.import
+    files = Dir.glob(Rails.root.join('data/ftp.uzp.gov.pl/bzp/xml/2016/*.exe'))
+    files.each do |file|
+      new(file, output_root: Rails.root.join('data/xml')).run
+    end
+  end
+
   def run
     find_or_create_archive
     build_publications do |publication|

@@ -18,7 +18,7 @@ class RarExtractor
   end
 
   def command
-    "unrar x #{safe_source_path} #{safe_destination}"
+    "unrar x -o- #{safe_source_path} #{safe_destination}"
   end
 
   def ensure_destination_exists
