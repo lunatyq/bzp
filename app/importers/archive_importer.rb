@@ -4,7 +4,7 @@ class ArchiveImporter
   attr_accessor :archive
 
   def self.run(year = Date.today.year)
-    files = Dir.glob(Rails.root.join('data/ftp.uzp.gov.pl/bzp/xml/#{year}/*.exe'))
+    files = Dir.glob(Rails.root.join("data/ftp.uzp.gov.pl/bzp/xml/#{year}/*.exe"))
     files.sort.each do |file|
       importer = new(file, output_root: Rails.root.join('data/xml'))
 
@@ -25,6 +25,10 @@ class ArchiveImporter
     end
   end
 
+  def archive_exists?
+    Archive.where(archive_attributes).exists?
+  end
+
   private
 
   def build_publications
@@ -42,10 +46,6 @@ class ArchiveImporter
 
   def extract_publications
     RarExtractor.new(path, :destination => output_path).run
-  end
-
-  def archive_exists?
-    Archive.where(archive_attributes).exists?
   end
 
   def find_or_create_archive
