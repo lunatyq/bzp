@@ -1,5 +1,5 @@
 #!/usr/bin/env bin/runner
 
-Dir.chdir(Rails.root.join('data/ftp.uzp.gov.pl/bzp/xml')) do
+Dir.chdir(Rails.root.join('data/ftp.uzp.gov.pl/bzp')) do
   system('lftp -e "mirror bzp/xml/ ./; exit" ftp.uzp.gov.pl')
 end

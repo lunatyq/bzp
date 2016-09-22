@@ -5,7 +5,7 @@ class RarExtractor
     ensure_destination_exists
     result = `#{command}`
 
-    if result.include?('All OK')
+    if result.include?('All OK') || result.include?('No files to extract')
       list_files
     else
       puts result
