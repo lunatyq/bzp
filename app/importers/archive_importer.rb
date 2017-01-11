@@ -1,12 +1,13 @@
 class ArchiveImporter
-  vattr_initialize :path, [:output_root]
+  vattr_initialize :path, [:version, :output_root]
 
   attr_accessor :archive
 
-  def self.run(year = Date.today.year)
-    files = Dir.glob(Rails.root.join("data/ftp.uzp.gov.pl/bzp/xml/#{year}/*.exe"))
+  def self.run(year = Date.today.year, version = nil)
+    bzp_dir = "bzp#{version}"
+    files = Dir.glob(Rails.root.join("data/ftp.uzp.gov.pl/#{bzp_dir}/xml/#{year}/*.exe"))
     files.sort.each do |file|
-      importer = new(file, output_root: Rails.root.join('data/xml'))
+      importer = new(file, version: version, output_root: Rails.root.join("data/xml"))
 
       unless importer.archive_exists?
         importer.run
@@ -55,12 +56,13 @@ class ArchiveImporter
   def archive_attributes
     {
       published_on: published_on,
+      version: version,
       year: year
     }
   end
 
   def output_path
-    File.join(output_root, year.to_s, name)
+    File.join(*[output_root, version, year.to_s, name].compact)
   end
 
   def published_on
