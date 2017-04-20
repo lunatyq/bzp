@@ -3,6 +3,17 @@ class ArchiveImporter
 
   attr_accessor :archive
 
+  def self.run(year = Date.today.year)
+    files = Dir.glob(Rails.root.join("data/ftp.uzp.gov.pl/bzp/xml/#{year}/*.exe"))
+    files.sort.each do |file|
+      importer = new(file, output_root: Rails.root.join('data/xml'))
+
+      unless importer.archive_exists?
+        importer.run
+      end
+    end
+  end
+
   def run
     find_or_create_archive
     build_publications do |publication|
@@ -12,6 +23,10 @@ class ArchiveImporter
         puts "#{publication.name} #{publication.errors.full_messages}".red
       end
     end
+  end
+
+  def archive_exists?
+    Archive.where(archive_attributes).exists?
   end
 
   private
@@ -34,10 +49,14 @@ class ArchiveImporter
   end
 
   def find_or_create_archive
-    self.archive = Archive.find_or_create_by!(
+    self.archive = Archive.find_or_create_by!(archive_attributes)
+  end
+
+  def archive_attributes
+    {
       published_on: published_on,
       year: year
-    )
+    }
   end
 
   def output_path

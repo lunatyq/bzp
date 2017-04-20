@@ -5,7 +5,7 @@ class RarExtractor
     ensure_destination_exists
     result = `#{command}`
 
-    if result.include?('All OK')
+    if result.include?('All OK') || result.include?('No files to extract')
       list_files
     else
       puts result
@@ -18,7 +18,7 @@ class RarExtractor
   end
 
   def command
-    "unrar x #{safe_source_path} #{safe_destination}"
+    "unrar x -o- #{safe_source_path} #{safe_destination}"
   end
 
   def ensure_destination_exists

@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+begin
+  load File.expand_path('../spring', __FILE__)
+rescue LoadError => e
+  raise unless e.message.include?('spring')
+end
+APP_PATH = File.expand_path('../../config/application', __FILE__)
+require_relative '../config/boot'
+
+require 'csv'
+names = %w(nazwa e_mail tel fax regon miejscowosc kod_poczt wojewodztwo)
+
+records = Publication.where(ogloszenie: 'ZP-400').order('data_publikacji ASC').index_by(&:regon)
+
+CSV.open("zamawiajacy.csv", "w") do |f|
+  f << names
+  records.each do |k,v|
+    print '.'
+    list = names.map { |n| v.send(n) }
+    f << list
+  end
+end

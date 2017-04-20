@@ -6,6 +6,8 @@ class Publication < ActiveRecord::Base
   validates :pozycja, presence: true
   validates :data_publikacji, presence: true
 
+  validates :pozycja, uniqueness: { scope: :data_publikacji }
+
   serialize :properties, Hash
 
   def name
