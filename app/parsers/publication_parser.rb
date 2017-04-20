@@ -16,7 +16,12 @@ class PublicationParser
 
   def xml_to_hash(root)
     root.children.each_with_object({}) do |element, memo|
-     if element.children.size == 1 && element.children.first.name == 'text'
+     if element.children.size == 0
+       memo[element.name] = nil
+       unless element.text.empty?
+         raise "#{element.name} is not blank"
+      end
+     elsif element.children.size == 1 && element.children.first.name == 'text'
       memo[element.name] = element.text
     else
       memo[element.name] = xml_to_hash(element)
