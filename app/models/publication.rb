@@ -13,4 +13,8 @@ class Publication < ActiveRecord::Base
   def name
     "[#{data_publikacji.try(:year).inspect}] #{data_publikacji}/#{pozycja} #{nazwa}"
   end
+
+  def email
+    properties['email']
+  end
 end
